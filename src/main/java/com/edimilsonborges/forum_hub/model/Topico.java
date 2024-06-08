@@ -25,6 +25,9 @@ public class Topico {
     @Column(unique = true, nullable = false)
     private String mensagem;
     private LocalDateTime dataCriacao;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status;
     @JsonIgnore
     @ManyToOne
     private Usuario usuario;
