@@ -4,10 +4,5 @@ import jakarta.persistence.OneToMany;
 
 import java.util.List;
 
-public record DadosUsuario(
-        Long id,
-        String nome,
-        String email,
-        String senha,
-        List<Topico>topicos) {
+public record DadosUsuario(Long id, String nome, String email, String senha, List<Topico>topicos) {
 }

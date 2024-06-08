@@ -23,7 +23,6 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Topico> topicos;
 
-
     public Usuario(Long id, String nome, String email, String senha) {
         this.id = id;
         this.nome = nome;

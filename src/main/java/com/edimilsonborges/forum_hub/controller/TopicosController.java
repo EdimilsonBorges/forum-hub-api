@@ -48,11 +48,16 @@ public class TopicosController {
 
         return topicoRepository.findAll(paginacao)
                 .map(t -> new DadosListagemTopicos(
+                        t.getId(),
                         t.getTitulo(),
                         t.getMensagem(),
                         t.getDataCriacao(),
                         t.getStatus(),
                         t.getUsuario().getNome(),
                         t.getCurso().getNome()));
+    }
+    @GetMapping("/{id}")
+    public DadosListagemTopicos listarTopico(@PathVariable(name = "id") Long id){
+        return new DadosListagemTopicos(topicoRepository.getReferenceById(id));
     }
 }
