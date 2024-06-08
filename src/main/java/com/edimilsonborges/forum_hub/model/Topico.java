@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Table(name = "topicos")
@@ -34,4 +35,17 @@ public class Topico {
     @JsonIgnore
     @ManyToOne
     private Curso curso;
+
+    public void atualizarInformacoes(DadosAtualizacaoTopico dadosAtualizacaoTopico) {
+
+        Optional<String> optionalTitulo = Optional.ofNullable(dadosAtualizacaoTopico.titulo());
+        optionalTitulo.ifPresent(t -> this.titulo = t);
+
+        Optional<String> optionalMensagem = Optional.ofNullable(dadosAtualizacaoTopico.mensagem());
+        optionalMensagem.ifPresent(m -> this.mensagem = m);
+
+        Optional<String> optionalStatus = Optional.ofNullable(dadosAtualizacaoTopico.status());
+        optionalStatus.ifPresent(s -> this.status = Status.valueOf(s));
+
+    }
 }

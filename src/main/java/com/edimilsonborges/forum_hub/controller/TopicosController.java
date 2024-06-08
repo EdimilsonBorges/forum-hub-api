@@ -25,8 +25,8 @@ public class TopicosController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @Transactional
     @PostMapping
+    @Transactional
     public Topico CadastrarTopico(@RequestBody @Valid DadosCadastroTopicos dadosCadastroTopicos) {
 
         Curso curso = cursoRepisitory.findByNome(dadosCadastroTopicos.curso());
@@ -59,5 +59,12 @@ public class TopicosController {
     @GetMapping("/{id}")
     public DadosListagemTopicos listarTopico(@PathVariable(name = "id") Long id){
         return new DadosListagemTopicos(topicoRepository.getReferenceById(id));
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public void atualizarTopico(@RequestBody @Valid DadosAtualizacaoTopico dadosAtualizacaoTopico, @PathVariable(name = "id") Long id){
+        Topico topico = topicoRepository.getReferenceById(id);
+        topico.atualizarInformacoes(dadosAtualizacaoTopico);
     }
 }
