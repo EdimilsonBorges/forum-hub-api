@@ -19,7 +19,7 @@ public class Curso {
     private String nome;
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
-    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Topico> topicos;
 
     public Curso(Long id, String curso, Categoria categoria) {

@@ -20,7 +20,7 @@ public class Usuario {
     private String nome;
     private String email;
     private String senha;
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Topico> topicos;
 
     public Usuario(Long id, String nome, String email, String senha) {
