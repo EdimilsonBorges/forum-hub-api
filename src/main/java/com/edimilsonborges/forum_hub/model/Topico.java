@@ -36,6 +36,16 @@ public class Topico {
     @ManyToOne
     private Curso curso;
 
+    public Topico(DadosCadastroTopicos dadosCadastroTopicos, Usuario usuario, Curso curso){
+        this.id = null;
+        this.titulo = dadosCadastroTopicos.titulo();
+        this.mensagem = dadosCadastroTopicos.mensagem();
+        this.dataCriacao = LocalDateTime.now();
+        this.status = Status.NAO_RESOLVIDO;
+        this.usuario = usuario;
+        this.curso = curso;
+    }
+
     public void atualizarInformacoes(DadosAtualizacaoTopico dadosAtualizacaoTopico) {
 
         Optional<String> optionalTitulo = Optional.ofNullable(dadosAtualizacaoTopico.titulo());
