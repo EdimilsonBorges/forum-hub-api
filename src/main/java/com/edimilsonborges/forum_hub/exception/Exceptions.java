@@ -1,4 +1,4 @@
-package com.edimilsonborges.forum_hub.exceptions;
+package com.edimilsonborges.forum_hub.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;

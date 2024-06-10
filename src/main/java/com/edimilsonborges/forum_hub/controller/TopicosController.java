@@ -1,6 +1,9 @@
 package com.edimilsonborges.forum_hub.controller;
 
 import com.edimilsonborges.forum_hub.model.*;
+import com.edimilsonborges.forum_hub.dto.DadosAtualizacaoTopico;
+import com.edimilsonborges.forum_hub.dto.DadosCadastroTopicos;
+import com.edimilsonborges.forum_hub.dto.DadosListagemTopicos;
 import com.edimilsonborges.forum_hub.repository.CursoRepisitory;
 import com.edimilsonborges.forum_hub.repository.TopicoRepository;
 import com.edimilsonborges.forum_hub.repository.UsuarioRepository;
@@ -14,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("topicos")

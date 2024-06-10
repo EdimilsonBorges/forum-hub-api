@@ -1,4 +1,6 @@
-package com.edimilsonborges.forum_hub.model;
+package com.edimilsonborges.forum_hub.dto;
+
+import com.edimilsonborges.forum_hub.model.Topico;
 
 import java.util.List;
 

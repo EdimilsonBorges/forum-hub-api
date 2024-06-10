@@ -1,5 +1,7 @@
 package com.edimilsonborges.forum_hub.model;
 
+import com.edimilsonborges.forum_hub.dto.DadosAtualizacaoTopico;
+import com.edimilsonborges.forum_hub.dto.DadosCadastroTopicos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,7 +12,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@Entity
+@Entity(name = "Topico")
 @Table(name = "topicos")
 @AllArgsConstructor
 @NoArgsConstructor
