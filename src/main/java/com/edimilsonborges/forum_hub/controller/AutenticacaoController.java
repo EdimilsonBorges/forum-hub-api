@@ -2,6 +2,9 @@ package com.edimilsonborges.forum_hub.controller;
 
 
 import com.edimilsonborges.forum_hub.dto.DadosAutenticacao;
+import com.edimilsonborges.forum_hub.security.DadosTokenJWT;
+import com.edimilsonborges.forum_hub.model.Usuario;
+import com.edimilsonborges.forum_hub.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +22,16 @@ public class AutenticacaoController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping
     public ResponseEntity<?> efetuarLogin(@RequestBody @Valid DadosAutenticacao dadosAutenticacao) {
 
-        Authentication token = new UsernamePasswordAuthenticationToken(dadosAutenticacao.email(), dadosAutenticacao.senha());
-        Authentication authentication = authenticationManager.authenticate(token);
-
-        return ResponseEntity.ok().build();
+        Authentication Authenticationtoken = new UsernamePasswordAuthenticationToken(dadosAutenticacao.email(), dadosAutenticacao.senha());
+        Authentication authentication = authenticationManager.authenticate(Authenticationtoken);
+        String tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 }

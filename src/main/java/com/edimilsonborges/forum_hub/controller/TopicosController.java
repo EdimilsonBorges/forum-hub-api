@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -65,13 +66,19 @@ public class TopicosController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<DadosListagemTopicos> listarTopico(@PathVariable(name = "id") Long id){
-        return ResponseEntity.ok(new DadosListagemTopicos(topicoRepository.getReferenceById(id)));
+        Optional<Topico> optionalTopico = topicoRepository.findById(id);
+        return optionalTopico.map(topico -> ResponseEntity.ok(new DadosListagemTopicos(topico))).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<?> atualizarTopico(@RequestBody @Valid DadosAtualizacaoTopico dadosAtualizacaoTopico, @PathVariable(name = "id") Long id){
-        Topico topico = topicoRepository.getReferenceById(id);
+        Optional<Topico> optionalTopico = topicoRepository.findById(id);
+        if(optionalTopico.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        Topico topico = optionalTopico.get();
         topico.atualizarInformacoes(dadosAtualizacaoTopico);
 
         return ResponseEntity.ok(new DadosListagemTopicos(topico));
@@ -80,9 +87,15 @@ public class TopicosController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<?> excluirTopico(@PathVariable(name = "id") Long id){
-        if(topicoRepository.existsById(id)){
-            topicoRepository.deleteById(id);
+
+        Optional<Topico> optionalTopico = topicoRepository.findById(id);
+
+        if(optionalTopico.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+
+        topicoRepository.deleteById(id);
+
         return ResponseEntity.noContent().build();
     }
 }
