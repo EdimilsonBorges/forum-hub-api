@@ -1,6 +1,6 @@
-package com.edimilsonborges.forum_hub.repository;
+package com.edimilsonborges.forum_hub.repositories;
 
-import com.edimilsonborges.forum_hub.model.Usuario;
+import com.edimilsonborges.forum_hub.models.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;

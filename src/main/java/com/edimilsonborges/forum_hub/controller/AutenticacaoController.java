@@ -3,7 +3,7 @@ package com.edimilsonborges.forum_hub.controller;
 
 import com.edimilsonborges.forum_hub.dto.DadosAutenticacao;
 import com.edimilsonborges.forum_hub.security.DadosTokenJWT;
-import com.edimilsonborges.forum_hub.model.Usuario;
+import com.edimilsonborges.forum_hub.models.Usuario;
 import com.edimilsonborges.forum_hub.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

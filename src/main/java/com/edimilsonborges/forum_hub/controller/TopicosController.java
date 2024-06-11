@@ -1,12 +1,13 @@
 package com.edimilsonborges.forum_hub.controller;
 
-import com.edimilsonborges.forum_hub.model.*;
+import com.edimilsonborges.forum_hub.models.*;
 import com.edimilsonborges.forum_hub.dto.DadosAtualizacaoTopico;
 import com.edimilsonborges.forum_hub.dto.DadosCadastroTopicos;
 import com.edimilsonborges.forum_hub.dto.DadosListagemTopicos;
-import com.edimilsonborges.forum_hub.repository.CursoRepisitory;
-import com.edimilsonborges.forum_hub.repository.TopicoRepository;
-import com.edimilsonborges.forum_hub.repository.UsuarioRepository;
+import com.edimilsonborges.forum_hub.repositories.CursoRepisitory;
+import com.edimilsonborges.forum_hub.repositories.TopicoRepository;
+import com.edimilsonborges.forum_hub.repositories.UsuarioRepository;
+import com.edimilsonborges.forum_hub.security.SecurityFilter;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,12 +30,14 @@ public class TopicosController {
     private CursoRepisitory cursoRepisitory;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    SecurityFilter securityFilter;
     @PostMapping
     @Transactional
     public ResponseEntity<?> CadastrarTopico(@RequestBody @Valid DadosCadastroTopicos dadosCadastroTopicos, UriComponentsBuilder uriBuilder) {
 
         Curso curso = cursoRepisitory.findByNome(dadosCadastroTopicos.curso());
-        Optional<Usuario> optionalUsuario = usuarioRepository.findById(1L);
+        Optional<Usuario> optionalUsuario = usuarioRepository.findById(securityFilter.getId());
 
         if (curso == null || optionalUsuario.isEmpty()) {
             throw new RuntimeException("Curso ou usuario nao existe");

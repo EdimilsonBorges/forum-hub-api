@@ -1,6 +1,6 @@
 package com.edimilsonborges.forum_hub.dto;
 
-import com.edimilsonborges.forum_hub.model.Topico;
+import com.edimilsonborges.forum_hub.models.Topico;
 
 import java.util.List;
 

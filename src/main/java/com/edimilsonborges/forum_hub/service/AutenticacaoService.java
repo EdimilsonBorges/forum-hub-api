@@ -1,6 +1,6 @@
 package com.edimilsonborges.forum_hub.service;
 
-import com.edimilsonborges.forum_hub.repository.UsuarioRepository;
+import com.edimilsonborges.forum_hub.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
