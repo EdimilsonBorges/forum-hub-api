@@ -31,11 +31,11 @@ public class Topico {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
-    @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
-    @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "curso_id")
     private Curso curso;
 
     public Topico(DadosCadastroTopicos dadosCadastroTopicos, Usuario usuario, Curso curso){
@@ -48,7 +48,7 @@ public class Topico {
         this.curso = curso;
     }
 
-    public void atualizarInformacoes(DadosAtualizacaoTopico dadosAtualizacaoTopico) {
+    public boolean atualizarInformacoes(DadosAtualizacaoTopico dadosAtualizacaoTopico) {
 
         Optional<String> optionalTitulo = Optional.ofNullable(dadosAtualizacaoTopico.titulo());
         optionalTitulo.ifPresent(t -> this.titulo = t);
@@ -56,8 +56,12 @@ public class Topico {
         Optional<String> optionalMensagem = Optional.ofNullable(dadosAtualizacaoTopico.mensagem());
         optionalMensagem.ifPresent(m -> this.mensagem = m);
 
-        Optional<String> optionalStatus = Optional.ofNullable(dadosAtualizacaoTopico.status());
-        optionalStatus.ifPresent(s -> this.status = Status.valueOf(s));
-
+        try {
+            Optional<String> optionalStatus = Optional.ofNullable(dadosAtualizacaoTopico.status());
+            optionalStatus.ifPresent(s -> this.status = Status.valueOf(s));
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
     }
 }

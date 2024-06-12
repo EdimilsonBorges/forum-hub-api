@@ -27,7 +27,7 @@ public class TokenService {
                     .sign(algoritimo);
 
         } catch (JWTCreationException exception){
-           throw new RuntimeException("Erro ao gerar token JWT", exception);
+            return null;
         }
     }
 
@@ -45,21 +45,7 @@ public class TokenService {
                     .getSubject();
 
         } catch (JWTVerificationException exception){
-            throw new RuntimeException("Token JWT inválido ou expirado");
-        }
-    }
-
-    public Long getId(String tokenJWT){
-        try {
-            Algorithm algoritimo = Algorithm.HMAC256(secret);
-            return JWT.require(algoritimo)
-                    .withIssuer("API Forum Hub")
-                    .build()
-                    .verify(tokenJWT)
-                    .getClaim("id").asLong();
-
-        } catch (JWTVerificationException exception){
-            throw new RuntimeException("Token JWT inválido ou expirado");
+            return null;
         }
     }
 }
