@@ -11,12 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import java.net.URI;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -33,7 +30,7 @@ public class TopicoService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosErros("Curso não encontrado!"));
         }
 
-        Topico topico = new Topico(dadosCadastroTopicos, getUsuarioLogado(), curso);
+        Topico topico = new Topico(dadosCadastroTopicos, Usuario.getUsuarioLogado(), curso);
         topicoRepository.save(topico);
 
         URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
@@ -54,9 +51,13 @@ public class TopicoService {
         return ResponseEntity.ok(page);
     }
 
-    public ResponseEntity<DadosListagemTopicos> listarTopico(Long id) {
+    public ResponseEntity<?> listarTopico(Long id) {
         Optional<Topico> optionalTopico = topicoRepository.findById(id);
-        return optionalTopico.map(topico -> ResponseEntity.ok(new DadosListagemTopicos(topico))).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+        if (optionalTopico.isPresent()) {
+            Topico topico = optionalTopico.get();
+            return ResponseEntity.ok(new DadosListagemTopicos(topico));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosErros("Tópico não encontrado!"));
     }
 
     public ResponseEntity<?> atualizarTopico(DadosAtualizacaoTopico dadosAtualizacaoTopico, Long id) {
@@ -66,12 +67,13 @@ public class TopicoService {
         if (optionalTopico.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosErros("Tópico não existe!"));
         }
+        Topico topico = optionalTopico.get();
+        Usuario usuario = topico.getUsuario();
 
-        if (!temPermisaoParaModificacao(optionalTopico.get())) {
+        if (!Usuario.temPermisaoParaModificacao(usuario)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new DadosErros("Você não tem permissão para modificar tópicos de outra pessoa!"));
         }
 
-        Topico topico = optionalTopico.get();
         if(!topico.atualizarInformacoes(dadosAtualizacaoTopico)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new DadosErros("Status inválido!"));
         }
@@ -86,7 +88,8 @@ public class TopicoService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosErros("Tópico não encontrado para a exclusão!"));
         }
 
-        if (!temPermisaoParaModificacao(optionalTopico.get())) {
+        Usuario usuario = optionalTopico.get().getUsuario();
+        if (!Usuario.temPermisaoParaModificacao(usuario)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new DadosErros("Você não tem permissão para excluir tópicos de outra pessoa!"));
         }
 
@@ -94,14 +97,4 @@ public class TopicoService {
 
         return ResponseEntity.ok(new DadosSucesso("Tópico excluído com sucesso!"));
     }
-
-    private Usuario getUsuarioLogado() {
-        return (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
-    private boolean temPermisaoParaModificacao(Topico topico) {
-        return Objects.equals(getUsuarioLogado().getId(), topico.getUsuario().getId());
-    }
-
-
 }

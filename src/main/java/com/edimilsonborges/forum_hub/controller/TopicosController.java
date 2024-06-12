@@ -1,22 +1,18 @@
 package com.edimilsonborges.forum_hub.controller;
 
-import com.edimilsonborges.forum_hub.models.*;
 import com.edimilsonborges.forum_hub.dto.DadosAtualizacaoTopico;
 import com.edimilsonborges.forum_hub.dto.DadosCadastroTopicos;
 import com.edimilsonborges.forum_hub.dto.DadosListagemTopicos;
-import com.edimilsonborges.forum_hub.repositories.TopicoRepository;
 import com.edimilsonborges.forum_hub.service.TopicoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("topicos")
@@ -35,7 +31,7 @@ public class TopicosController {
         return topicoService.listarTodosTopicos(paginacao);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<DadosListagemTopicos> listarTopico(@PathVariable(name = "id") Long id){
+    public ResponseEntity<?> listarTopico(@PathVariable(name = "id") Long id){
        return topicoService.listarTopico(id);
     }
 
