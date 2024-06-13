@@ -31,13 +31,8 @@ public class Usuario implements UserDetails {
     private String senha;
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Topico> topicos;
-
-    public Usuario(Long id, String nome, String email, String senha) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-    }
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Resposta> respostas;
 
     public Usuario(DadosCadastroUsuario dadosCadastroUsuario) {
         this.id = null;

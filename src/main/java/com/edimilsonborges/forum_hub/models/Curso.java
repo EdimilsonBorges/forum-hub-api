@@ -21,14 +21,4 @@ public class Curso {
     private Categoria categoria;
     @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Topico> topicos;
-
-    public Curso(Long id, String curso, Categoria categoria) {
-        this.id = id;
-        this.nome = curso;
-        this.categoria = categoria;
-    }
-
-    public void atualizarDados(Curso curso) {
-
-    }
 }

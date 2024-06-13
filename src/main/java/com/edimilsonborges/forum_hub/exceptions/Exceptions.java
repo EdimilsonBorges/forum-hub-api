@@ -1,6 +1,7 @@
 package com.edimilsonborges.forum_hub.exceptions;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -24,7 +25,7 @@ public class Exceptions {
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity<?> duplicata(SQLIntegrityConstraintViolationException exception){
-        return ResponseEntity.internalServerError().body(new DadosErrosDuplicata(exception.getMessage()));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(new DadosErrosDuplicata(exception.getMessage()));
     }
 
     public record DadosErrosValidacao(String campo, String mensagem){
@@ -33,7 +34,7 @@ public class Exceptions {
         }
     }
 
-    public record DadosErrosDuplicata(String erro){
+    public record DadosErrosDuplicata(String error){
 
     }
 }

@@ -1,8 +1,6 @@
 package com.edimilsonborges.forum_hub.controller;
 
-import com.edimilsonborges.forum_hub.dto.DadosAtualizacaoTopico;
-import com.edimilsonborges.forum_hub.dto.DadosCadastroTopicos;
-import com.edimilsonborges.forum_hub.dto.DadosListagemTopicos;
+import com.edimilsonborges.forum_hub.dto.*;
 import com.edimilsonborges.forum_hub.service.TopicoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +43,11 @@ public class TopicosController {
     @Transactional
     public ResponseEntity<?> excluirTopico(@PathVariable(name = "id") Long id){
        return topicoService.excluirTopico(id);
+    }
+
+    @PutMapping("resolvido/{id}")
+    @Transactional
+    public ResponseEntity<?> atualizarStatusTopico(@RequestBody @Valid DadosTopicoResolvido dadosTopicoResolvido, @PathVariable(name = "id") Long id){
+        return topicoService.atualizarStatusTopico(id, dadosTopicoResolvido);
     }
 }
