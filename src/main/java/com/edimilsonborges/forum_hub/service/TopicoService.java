@@ -118,7 +118,7 @@ public class TopicoService {
         if(!Usuario.temPermisaoParaModificacao(topico.getUsuario())){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DadosErros("Você não tem permissão de alterar o status do tópico de outra pessoa!"));
         }
-        List<Resposta> respostas = respostaRepository.findAll();
+        List<Resposta> respostas = respostaRepository.buscarRespostaPorSolucaoPorTopico(true,topico);
         respostas.forEach(r -> r.setSolucao(false));
 
         topico.setStatus(Status.RESOLVIDO);

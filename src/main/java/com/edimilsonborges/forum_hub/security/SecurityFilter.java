@@ -28,7 +28,12 @@ public class SecurityFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String requestURI = request.getRequestURI();
-        if (request.getMethod().equalsIgnoreCase(HttpMethod.POST.toString()) && (requestURI.equalsIgnoreCase("/auth") || requestURI.equalsIgnoreCase("/usuarios"))) {
+        if (request.getMethod().equalsIgnoreCase(HttpMethod.POST.toString()) &&
+                (requestURI.equalsIgnoreCase("/auth") ||
+                        requestURI.equalsIgnoreCase("/usuarios")
+                ) ||
+                requestURI.toLowerCase().startsWith("/swagger-ui") ||
+                requestURI.toLowerCase().startsWith(("/v3/api-docs"))) {
             filterChain.doFilter(request, response);
             return;
         }

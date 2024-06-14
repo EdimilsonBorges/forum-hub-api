@@ -6,6 +6,8 @@ import com.edimilsonborges.forum_hub.dto.DadosErros;
 import com.edimilsonborges.forum_hub.security.DadosTokenJWT;
 import com.edimilsonborges.forum_hub.models.Usuario;
 import com.edimilsonborges.forum_hub.security.TokenService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,8 @@ public class AutenticacaoController {
     @Autowired
     private TokenService tokenService;
 
+    @Tag(name = "Public Controller", description = "Public API Endpoints")
+    @Operation(summary = "Faça login", description = "Faça login na API e gere um Token JWT e insira em Authorize para ter acesso aos endpoints restritos")
     @PostMapping
     public ResponseEntity<?> efetuarLogin(@RequestBody @Valid DadosAutenticacao dadosAutenticacao) {
 

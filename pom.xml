@@ -9,10 +9,15 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.edimilsonborges</groupId>
-	<artifactId>forum-hub</artifactId>
+	<artifactId>forum-hub-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>forum-hub</name>
-	<description>Demo project for Spring Boot</description>
+	<name>forum-hub-api</name>
+	<description>A Forum Hub API é uma API RESTful desenvolvida em Spring Boot com Java que fornece funcionalidades para um fórum online.
+		Os usuários podem se cadastrar, fazer login, criar tópicos com suas dúvidas e responder aos tópicos de outros usuários.
+		A API foi projetada para ser simples e intuitiva, permitindo uma interação fluida e eficiente com o fórum.
+
+		A Forum Hub API utiliza JSON Web Tokens (JWT) para autenticação e autorização.
+		Os endpoints críticos como a criação de tópicos e respostas exigem um token JWT válido no cabeçalho da solicitação.</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
@@ -66,6 +71,11 @@
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>
 			<version>4.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.5.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
