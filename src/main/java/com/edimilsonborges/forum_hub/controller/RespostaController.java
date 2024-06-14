@@ -1,8 +1,8 @@
 package com.edimilsonborges.forum_hub.controller;
 
-import com.edimilsonborges.forum_hub.dto.DadosAtualizacaoResposta;
-import com.edimilsonborges.forum_hub.dto.DadosCadastroResposta;
-import com.edimilsonborges.forum_hub.dto.DadosListagemResposta;
+import com.edimilsonborges.forum_hub.dto.respostas.DadosAtualizacaoResposta;
+import com.edimilsonborges.forum_hub.dto.respostas.DadosCadastroResposta;
+import com.edimilsonborges.forum_hub.dto.respostas.DadosListagemResposta;
 import com.edimilsonborges.forum_hub.service.RespostaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping("respostas")
 @SecurityRequirement(name = "bearer-key")
-@Tag(name = "Resposta Controller", description = "Public API Endpoints")
+@Tag(name = "Resposta Controller", description = "Endpoints para as respostas dos tópicos")
 public class RespostaController {
 
     @Autowired
@@ -33,7 +34,7 @@ public class RespostaController {
 
     @Operation(summary = "Liste todas as respostas", description = "Liste todas as respostas")
     @GetMapping
-    public ResponseEntity<Page<DadosListagemResposta>> listarTodasRespostas(Pageable pageable) {
+    public ResponseEntity<Page<DadosListagemResposta>> listarTodasRespostas(@PageableDefault(size = 10, sort = {"dataCriacao"})Pageable pageable) {
         return respostaService.listarTodasRespostas(pageable);
     }
 

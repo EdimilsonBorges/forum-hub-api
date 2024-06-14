@@ -1,6 +1,6 @@
 package com.edimilsonborges.forum_hub.models;
 
-import com.edimilsonborges.forum_hub.dto.DadosAtualizacaoResposta;
+import com.edimilsonborges.forum_hub.dto.respostas.DadosAtualizacaoResposta;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

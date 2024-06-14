@@ -1,6 +1,10 @@
 package com.edimilsonborges.forum_hub.service;
 
-import com.edimilsonborges.forum_hub.dto.*;
+import com.edimilsonborges.forum_hub.dto.status.DadosErros;
+import com.edimilsonborges.forum_hub.dto.status.DadosSucesso;
+import com.edimilsonborges.forum_hub.dto.usuarios.DadosAtualizacaoUsuario;
+import com.edimilsonborges.forum_hub.dto.usuarios.DadosCadastroUsuario;
+import com.edimilsonborges.forum_hub.dto.usuarios.DadosListagemUsuarios;
 import com.edimilsonborges.forum_hub.models.Usuario;
 import com.edimilsonborges.forum_hub.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

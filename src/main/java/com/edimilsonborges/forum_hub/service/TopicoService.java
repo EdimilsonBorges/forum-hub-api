@@ -1,6 +1,11 @@
 package com.edimilsonborges.forum_hub.service;
 
-import com.edimilsonborges.forum_hub.dto.*;
+import com.edimilsonborges.forum_hub.dto.status.DadosErros;
+import com.edimilsonborges.forum_hub.dto.status.DadosSucesso;
+import com.edimilsonborges.forum_hub.dto.topicos.DadosAtualizacaoTopico;
+import com.edimilsonborges.forum_hub.dto.topicos.DadosCadastroTopicos;
+import com.edimilsonborges.forum_hub.dto.topicos.DadosListagemTopicos;
+import com.edimilsonborges.forum_hub.dto.topicos.DadosTopicoResolvido;
 import com.edimilsonborges.forum_hub.models.*;
 import com.edimilsonborges.forum_hub.repositories.CursoRepisitory;
 import com.edimilsonborges.forum_hub.repositories.RespostaRepository;

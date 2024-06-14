@@ -1,4 +1,4 @@
-package com.edimilsonborges.forum_hub.dto;
+package com.edimilsonborges.forum_hub.dto.respostas;
 
 import com.edimilsonborges.forum_hub.models.Resposta;
 import jakarta.validation.constraints.NotBlank;

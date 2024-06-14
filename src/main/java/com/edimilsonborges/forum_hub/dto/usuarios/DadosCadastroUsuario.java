@@ -1,4 +1,4 @@
-package com.edimilsonborges.forum_hub.dto;
+package com.edimilsonborges.forum_hub.dto.usuarios;
 
 import jakarta.validation.constraints.NotBlank;
 

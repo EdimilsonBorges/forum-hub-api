@@ -24,13 +24,16 @@ public class SpringDocConfiguration {
                                 A API foi projetada para ser simples e intuitiva, permitindo uma interação fluida e eficiente com o fórum.</br></br>
                                 A Forum Hub API utiliza JSON Web Tokens (JWT) para autenticação e autorização.</br> Os endpoints críticos como a criação de tópicos e respostas exigem um token JWT válido no cabeçalho da solicitação.
                                 """))
+                .tags(Arrays.asList(
+                        new Tag().name("Publico Controller").description("Endpoints Públicos"),
+                        new Tag().name("Topico Controller").description("Endpoints dos tópicos de perguntas"),
+                        new Tag().name("Resposta Controller").description("Endpoints para as respostas dos tópicos"),
+                        new Tag().name("Usuario Controller").description("Endpoints das contas dos usuários")
+                ))
                 .components(new Components()
                         .addSecuritySchemes("bearer-key", new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
-                                .bearerFormat("JWT")))
-                .tags(Arrays.asList(
-                        new Tag().name("Public Controller").description("Public API Endpoints")
-                ));
+                                .bearerFormat("JWT")));
     }
 }

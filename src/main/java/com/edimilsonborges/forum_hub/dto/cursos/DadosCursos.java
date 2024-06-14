@@ -1,4 +1,4 @@
-package com.edimilsonborges.forum_hub.dto;
+package com.edimilsonborges.forum_hub.dto.cursos;
 
 import com.edimilsonborges.forum_hub.models.Categoria;
 import com.edimilsonborges.forum_hub.models.Curso;

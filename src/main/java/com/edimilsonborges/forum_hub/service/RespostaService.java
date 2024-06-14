@@ -1,6 +1,10 @@
 package com.edimilsonborges.forum_hub.service;
 
-import com.edimilsonborges.forum_hub.dto.*;
+import com.edimilsonborges.forum_hub.dto.respostas.DadosAtualizacaoResposta;
+import com.edimilsonborges.forum_hub.dto.respostas.DadosCadastroResposta;
+import com.edimilsonborges.forum_hub.dto.respostas.DadosListagemResposta;
+import com.edimilsonborges.forum_hub.dto.status.DadosErros;
+import com.edimilsonborges.forum_hub.dto.status.DadosSucesso;
 import com.edimilsonborges.forum_hub.models.Resposta;
 import com.edimilsonborges.forum_hub.models.Topico;
 import com.edimilsonborges.forum_hub.models.Usuario;
@@ -15,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 @Service

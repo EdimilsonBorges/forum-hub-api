@@ -1,7 +1,7 @@
 package com.edimilsonborges.forum_hub.models;
 
-import com.edimilsonborges.forum_hub.dto.DadosAtualizacaoUsuario;
-import com.edimilsonborges.forum_hub.dto.DadosCadastroUsuario;
+import com.edimilsonborges.forum_hub.dto.usuarios.DadosAtualizacaoUsuario;
+import com.edimilsonborges.forum_hub.dto.usuarios.DadosCadastroUsuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

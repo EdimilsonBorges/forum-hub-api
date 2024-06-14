@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ForumHubApplication {
+public class ForumHubApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ForumHubApplication.class, args);
+		SpringApplication.run(ForumHubApiApplication.class, args);
 	}
 }

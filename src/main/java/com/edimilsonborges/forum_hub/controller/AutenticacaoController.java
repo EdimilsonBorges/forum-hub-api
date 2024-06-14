@@ -1,8 +1,8 @@
 package com.edimilsonborges.forum_hub.controller;
 
 
-import com.edimilsonborges.forum_hub.dto.DadosAutenticacao;
-import com.edimilsonborges.forum_hub.dto.DadosErros;
+import com.edimilsonborges.forum_hub.dto.autenticacao.DadosAutenticacao;
+import com.edimilsonborges.forum_hub.dto.status.DadosErros;
 import com.edimilsonborges.forum_hub.security.DadosTokenJWT;
 import com.edimilsonborges.forum_hub.models.Usuario;
 import com.edimilsonborges.forum_hub.security.TokenService;
@@ -30,7 +30,7 @@ public class AutenticacaoController {
     @Autowired
     private TokenService tokenService;
 
-    @Tag(name = "Public Controller", description = "Public API Endpoints")
+    @Tag(name = "Publico Controller", description = "Endpoints Públicos")
     @Operation(summary = "Faça login", description = "Faça login na API e gere um Token JWT e insira em Authorize para ter acesso aos endpoints restritos")
     @PostMapping
     public ResponseEntity<?> efetuarLogin(@RequestBody @Valid DadosAutenticacao dadosAutenticacao) {

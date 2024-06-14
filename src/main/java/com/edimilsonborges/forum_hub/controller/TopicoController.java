@@ -1,6 +1,9 @@
 package com.edimilsonborges.forum_hub.controller;
 
-import com.edimilsonborges.forum_hub.dto.*;
+import com.edimilsonborges.forum_hub.dto.topicos.DadosAtualizacaoTopico;
+import com.edimilsonborges.forum_hub.dto.topicos.DadosCadastroTopicos;
+import com.edimilsonborges.forum_hub.dto.topicos.DadosListagemTopicos;
+import com.edimilsonborges.forum_hub.dto.topicos.DadosTopicoResolvido;
 import com.edimilsonborges.forum_hub.service.TopicoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -18,7 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RestController
 @RequestMapping("topicos")
 @SecurityRequirement(name = "bearer-key")
-@Tag(name = "Topico Controller", description = "Public API Endpoints")
+@Tag(name = "Topico Controller", description = "Endpoints dos tópicos de perguntas")
 public class TopicoController {
     @Autowired
     TopicoService topicoService;

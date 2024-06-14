@@ -1,8 +1,8 @@
 package com.edimilsonborges.forum_hub.controller;
 
-import com.edimilsonborges.forum_hub.dto.DadosAtualizacaoUsuario;
-import com.edimilsonborges.forum_hub.dto.DadosCadastroUsuario;
-import com.edimilsonborges.forum_hub.dto.DadosListagemUsuarios;
+import com.edimilsonborges.forum_hub.dto.usuarios.DadosAtualizacaoUsuario;
+import com.edimilsonborges.forum_hub.dto.usuarios.DadosCadastroUsuario;
+import com.edimilsonborges.forum_hub.dto.usuarios.DadosListagemUsuarios;
 import com.edimilsonborges.forum_hub.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +19,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("usuarios")
-@Tag(name = "Usuario Controller", description = "Public API Endpoints")
+@Tag(name = "Usuario Controller", description = "Endpoints das contas dos usuários")
 public class UsuarioController {
 
     @Autowired
     UsuarioService usuarioService;
-    @Tag(name = "Public Controller", description = "Public API Endpoints")
+    @Tag(name = "Publico Controller", description = "Endpoints Públicos")
     @Operation(summary = "Crie sua conta", description = "Cria sua conta e use este email e senha no auth para se autenticar")
     @PostMapping
     @Transactional
@@ -34,7 +35,7 @@ public class UsuarioController {
     @Operation(summary = "Liste todos os usuários cadastrados", description = "Liste todos os usuários cadastrados")
     @GetMapping
     @SecurityRequirement(name = "bearer-key")
-    public ResponseEntity<Page<DadosListagemUsuarios>> listarTodosUsuario(Pageable paginacao){
+    public ResponseEntity<Page<DadosListagemUsuarios>> listarTodosUsuario(@PageableDefault(size = 10)Pageable paginacao){
         return usuarioService.listarTodosUsuarios(paginacao);
     }
     @Operation(summary = "Liste um usuário cadastrado", description = "Liste um usuario cadastrado")

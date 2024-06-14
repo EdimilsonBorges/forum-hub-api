@@ -1,8 +1,6 @@
 package com.edimilsonborges.forum_hub.models;
 
-import com.edimilsonborges.forum_hub.dto.DadosAtualizacaoTopico;
-import com.edimilsonborges.forum_hub.dto.DadosCadastroTopicos;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.edimilsonborges.forum_hub.dto.topicos.DadosAtualizacaoTopico;
 import jakarta.persistence.*;
 import lombok.*;
 
