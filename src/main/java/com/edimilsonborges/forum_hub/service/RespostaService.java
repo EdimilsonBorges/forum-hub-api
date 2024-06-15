@@ -1,5 +1,7 @@
 package com.edimilsonborges.forum_hub.service;
 
+import com.edimilsonborges.forum_hub.controller.RespostaController;
+import com.edimilsonborges.forum_hub.controller.TopicoController;
 import com.edimilsonborges.forum_hub.dto.respostas.DadosAtualizacaoResposta;
 import com.edimilsonborges.forum_hub.dto.respostas.DadosCadastroResposta;
 import com.edimilsonborges.forum_hub.dto.respostas.DadosListagemResposta;
@@ -20,6 +22,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Optional;
+import java.util.UUID;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 public class RespostaService {
@@ -45,20 +51,31 @@ public class RespostaService {
 
     public ResponseEntity<Page<DadosListagemResposta>> listarTodasRespostas(Pageable pageable) {
         Page<DadosListagemResposta> page = respostaRepository.findAll(pageable)
-                .map(DadosListagemResposta::new);
+                .map(r ->{
+                    r.add(linkTo(methodOn(RespostaController.class).listarResposta(r.getId())).withRel("Detalhes da Resposta"));
+                    return new DadosListagemResposta(
+                            r.getId(),
+                            r.getUsuario().getNome(),
+                            r.getMensagem(),
+                            r.getTopico().getTitulo(),
+                            r.getSolucao(),
+                            r.getDataCriacao(),
+                            r.getLinks());
+                });
         return ResponseEntity.ok().body(page);
     }
 
-    public ResponseEntity<?> listarResposta(Long id) {
+    public ResponseEntity<?> listarResposta(UUID id) {
         Optional<Resposta> optionalResposta = respostaRepository.findById(id);
         if(optionalResposta.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosErros("Resposta não encontrada!"));
         }
         Resposta resposta = optionalResposta.get();
+        resposta.add(linkTo(methodOn(RespostaController.class).listarTodasRespostas(Pageable.unpaged())).withRel("Lista de respostas"));
         return ResponseEntity.ok(new DadosListagemResposta(resposta));
     }
 
-    public ResponseEntity<?> atualizarResposta(DadosAtualizacaoResposta dadosAtualizacaoResposta, Long id) {
+    public ResponseEntity<?> atualizarResposta(DadosAtualizacaoResposta dadosAtualizacaoResposta, UUID id) {
         Optional<Resposta> optionalResposta = respostaRepository.findById(id);
         if(optionalResposta.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosErros("Resposta não encontrada para ser atualizada!"));
@@ -74,7 +91,7 @@ public class RespostaService {
         return ResponseEntity.ok(new DadosListagemResposta(resposta));
     }
 
-    public ResponseEntity<?> excluirResposta(Long id) {
+    public ResponseEntity<?> excluirResposta(UUID id) {
         Optional<Resposta> optionalResposta = respostaRepository.findById(id);
 
         if(optionalResposta.isEmpty()){

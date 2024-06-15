@@ -4,7 +4,7 @@ CREATE TABLE respostas (
   id BIGINT NOT NULL AUTO_INCREMENT,
   mensagem VARCHAR(500) NOT NULL UNIQUE,
   data_criacao DATETIME NOT NULL,
-  solucao TINYINT(1) NOT NULL,
+  solucao TINYINT NOT NULL,
   autor_id BIGINT NOT NULL,
   topico_id BIGINT NOT NULL,
   PRIMARY KEY(id),

@@ -6,18 +6,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "respostas")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class Resposta {
+public class Resposta extends RepresentationModel<Curso> implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     @Column(unique = true, nullable = false)
     private String mensagem;
     private LocalDateTime dataCriacao;

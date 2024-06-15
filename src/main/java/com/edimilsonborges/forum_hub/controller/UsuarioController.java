@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("usuarios")
 @Tag(name = "Usuario Controller", description = "Endpoints das contas dos usuários")
@@ -41,7 +43,7 @@ public class UsuarioController {
     @Operation(summary = "Liste um usuário cadastrado", description = "Liste um usuario cadastrado")
     @GetMapping("/{id}")
     @SecurityRequirement(name = "bearer-key")
-    public ResponseEntity<?> listarUsuario(@PathVariable(value = "id") Long id){
+    public ResponseEntity<?> listarUsuario(@PathVariable(value = "id") UUID id){
         return usuarioService.listarUsuario(id);
     }
 
@@ -49,7 +51,7 @@ public class UsuarioController {
     @PutMapping("/{id}")
     @Transactional
     @SecurityRequirement(name = "bearer-key")
-    public ResponseEntity<?> atualizarUsuario(@RequestBody @Valid DadosAtualizacaoUsuario dadosAtualizacaoUsuario, @PathVariable(value = "id") Long id){
+    public ResponseEntity<?> atualizarUsuario(@RequestBody @Valid DadosAtualizacaoUsuario dadosAtualizacaoUsuario, @PathVariable(value = "id") UUID id){
         return usuarioService.atualizarUsuario(dadosAtualizacaoUsuario, id);
     }
 
@@ -57,7 +59,7 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     @Transactional
     @SecurityRequirement(name = "bearer-key")
-    public ResponseEntity<?> cancelarConta(@PathVariable(value = "id") Long id){
+    public ResponseEntity<?> cancelarConta(@PathVariable(value = "id") UUID id){
         return usuarioService.cancelarConta(id);
     }
 }

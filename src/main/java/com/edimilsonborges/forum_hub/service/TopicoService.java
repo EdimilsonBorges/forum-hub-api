@@ -1,5 +1,6 @@
 package com.edimilsonborges.forum_hub.service;
 
+import com.edimilsonborges.forum_hub.controller.TopicoController;
 import com.edimilsonborges.forum_hub.dto.status.DadosErros;
 import com.edimilsonborges.forum_hub.dto.status.DadosSucesso;
 import com.edimilsonborges.forum_hub.dto.topicos.DadosAtualizacaoTopico;
@@ -21,6 +22,10 @@ import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 public class TopicoService {
@@ -45,29 +50,36 @@ public class TopicoService {
     }
 
     public ResponseEntity<Page<DadosListagemTopicos>> listarTodosTopicos(Pageable paginacao) {
+
         Page<DadosListagemTopicos> page = topicoRepository.findAll(paginacao)
-                .map(t -> new DadosListagemTopicos(
-                        t.getId(),
-                        t.getTitulo(),
-                        t.getMensagem(),
-                        t.getDataCriacao(),
-                        t.getStatus(),
-                        t.getUsuario().getNome(),
-                        t.getCurso().getNome()));
+                .map(t -> {
+                    t.add(linkTo(methodOn(TopicoController.class).listarTopico(t.getId())).withRel("Detalhes do Tópico"));
+                   return new DadosListagemTopicos(
+                            t.getId(),
+                            t.getTitulo(),
+                            t.getMensagem(),
+                            t.getDataCriacao(),
+                            t.getStatus(),
+                            t.getUsuario().getNome(),
+                            t.getCurso().getNome(),
+                            t.getLinks());
+                });
 
         return ResponseEntity.ok(page);
     }
 
-    public ResponseEntity<?> listarTopico(Long id) {
+    public ResponseEntity<?> listarTopico(UUID id) {
         Optional<Topico> optionalTopico = topicoRepository.findById(id);
-        if (optionalTopico.isPresent()) {
-            Topico topico = optionalTopico.get();
-            return ResponseEntity.ok(new DadosListagemTopicos(topico));
+        if (optionalTopico.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosErros("Tópico não encontrado!"));
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosErros("Tópico não encontrado!"));
+        Topico topico = optionalTopico.get();
+        topico.add(linkTo(methodOn(TopicoController.class).listarTodosTopicos(Pageable.unpaged())).withRel("Lista de Tópicos"));
+        return ResponseEntity.ok(new DadosListagemTopicos(topico));
+
     }
 
-    public ResponseEntity<?> atualizarTopico(DadosAtualizacaoTopico dadosAtualizacaoTopico, Long id) {
+    public ResponseEntity<?> atualizarTopico(DadosAtualizacaoTopico dadosAtualizacaoTopico, UUID id) {
 
         Optional<Topico> optionalTopico = topicoRepository.findById(id);
 
@@ -86,7 +98,7 @@ public class TopicoService {
         return ResponseEntity.ok(new DadosListagemTopicos(topico));
     }
 
-    public ResponseEntity<?> excluirTopico(Long id) {
+    public ResponseEntity<?> excluirTopico(UUID id) {
         Optional<Topico> optionalTopico = topicoRepository.findById(id);
 
         if (optionalTopico.isEmpty()) {
@@ -103,7 +115,7 @@ public class TopicoService {
         return ResponseEntity.ok(new DadosSucesso("Tópico excluído com sucesso!"));
     }
 
-    public ResponseEntity<?> atualizarStatusTopico(Long id, DadosTopicoResolvido dadosTopicoResolvido) {
+    public ResponseEntity<?> atualizarStatusTopico(UUID id, DadosTopicoResolvido dadosTopicoResolvido) {
         Optional<Topico> optionalTopico = topicoRepository.findById(id);
         Optional<Resposta> optionalResposta = respostaRepository.findById(dadosTopicoResolvido.respostaId());
         if (optionalTopico.isEmpty()) {

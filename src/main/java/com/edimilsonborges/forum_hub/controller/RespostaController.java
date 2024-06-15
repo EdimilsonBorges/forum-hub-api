@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("respostas")
 @SecurityRequirement(name = "bearer-key")
@@ -40,21 +42,21 @@ public class RespostaController {
 
     @Operation(summary = "Liste uma resposta cadastrada", description = "Liste uma resposta cadastrada")
     @GetMapping("/{id}")
-    public ResponseEntity<?> listarResposta(@PathVariable(name = "id") Long id){
+    public ResponseEntity<?> listarResposta(@PathVariable(name = "id") UUID id){
         return respostaService.listarResposta(id);
     }
 
     @Operation(summary = "Atualize uma resposta cadastrada por você", description = "Atualize uma resposta cadastrada por você")
     @Transactional
     @PutMapping("/{id}")
-    public ResponseEntity<?> atualizarResposta(@RequestBody DadosAtualizacaoResposta dadosAtualizacaoResposta, @PathVariable(name = "id") Long id){
+    public ResponseEntity<?> atualizarResposta(@RequestBody DadosAtualizacaoResposta dadosAtualizacaoResposta, @PathVariable(name = "id") UUID id){
         return respostaService.atualizarResposta(dadosAtualizacaoResposta,id);
     }
 
     @Operation(summary = "Delete uma resposta cadastrada por você", description = "Delete uma resposta cadastrada por você")
     @Transactional
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> excluirResposta(@PathVariable(value = "id") Long id){
+    public ResponseEntity<?> excluirResposta(@PathVariable(value = "id") UUID id){
         return respostaService.excluirResposta(id);
     }
 }

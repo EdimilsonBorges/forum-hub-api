@@ -4,5 +4,7 @@ import com.edimilsonborges.forum_hub.models.Categoria;
 import com.edimilsonborges.forum_hub.models.Curso;
 
 import java.util.List;
-public record DadosCursos(Long id, String nome, Categoria categoria, List<Curso>cursos) {
+import java.util.UUID;
+
+public record DadosCursos(UUID id, String nome, Categoria categoria, List<Curso>cursos) {
 }

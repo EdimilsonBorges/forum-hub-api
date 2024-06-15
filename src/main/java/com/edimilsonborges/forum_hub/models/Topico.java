@@ -3,22 +3,25 @@ package com.edimilsonborges.forum_hub.models;
 import com.edimilsonborges.forum_hub.dto.topicos.DadosAtualizacaoTopico;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Entity(name = "Topico")
 @Table(name = "topicos")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@EqualsAndHashCode(of = "id")
-public class Topico {
+@EqualsAndHashCode(of = "id", callSuper = false)
+public class Topico extends RepresentationModel<Topico> implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
     @Column(unique = true, nullable = false)
     private String titulo;
     @Column(unique = true, nullable = false)

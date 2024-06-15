@@ -1,5 +1,7 @@
 package com.edimilsonborges.forum_hub.service;
 
+import com.edimilsonborges.forum_hub.controller.RespostaController;
+import com.edimilsonborges.forum_hub.controller.UsuarioController;
 import com.edimilsonborges.forum_hub.dto.status.DadosErros;
 import com.edimilsonborges.forum_hub.dto.status.DadosSucesso;
 import com.edimilsonborges.forum_hub.dto.usuarios.DadosAtualizacaoUsuario;
@@ -17,6 +19,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.Optional;
+import java.util.UUID;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 public class UsuarioService {
@@ -32,21 +38,26 @@ public class UsuarioService {
 
     public ResponseEntity<Page<DadosListagemUsuarios>> listarTodosUsuarios(Pageable paginacao){
        Page<DadosListagemUsuarios> page = usuarioRepository.findAll(paginacao)
-               .map(usuario -> new DadosListagemUsuarios(usuario.getId(),usuario.getNome()));
+               .map(usuario -> {
+                   usuario.add(linkTo(methodOn(UsuarioController.class).listarUsuario(usuario.getId())).withRel("Detalhes do usuário"));
+                   return new DadosListagemUsuarios(usuario.getId(),usuario.getNome(), usuario.getLinks());
+               });
 
         return ResponseEntity.ok(page);
     }
 
-    public ResponseEntity<?> listarUsuario(Long id) {
+    public ResponseEntity<?> listarUsuario(UUID id) {
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
-        if (optionalUsuario.isPresent()) {
-            Usuario usuario = optionalUsuario.get();
-            return ResponseEntity.ok(new DadosListagemUsuarios(usuario.getId(), usuario.getNome()));
+        if (optionalUsuario.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosErros("Usuário não encontrado!"));
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosErros("Usuário não encontrado!"));
+        Usuario usuario = optionalUsuario.get();
+        usuario.add(linkTo(methodOn(UsuarioController.class).listarTodosUsuario(Pageable.unpaged())).withRel("Lista de usuários"));
+        return ResponseEntity.ok(new DadosListagemUsuarios(usuario.getId(), usuario.getNome(),usuario.getLinks()));
+
     }
 
-    public ResponseEntity<?> atualizarUsuario(DadosAtualizacaoUsuario dadosAtualizacaoUsuario, Long id) {
+    public ResponseEntity<?> atualizarUsuario(DadosAtualizacaoUsuario dadosAtualizacaoUsuario, UUID id) {
 
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         if (optionalUsuario.isEmpty()) {
@@ -62,7 +73,7 @@ public class UsuarioService {
         return ResponseEntity.ok(new DadosListagemUsuarios(usuario));
     }
 
-    public ResponseEntity<?> cancelarConta(Long id) {
+    public ResponseEntity<?> cancelarConta(UUID id) {
         Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
         if (optionalUsuario.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosErros("Conta não encontrado para o cancelamento!"));
