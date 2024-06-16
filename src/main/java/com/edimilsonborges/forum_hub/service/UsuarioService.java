@@ -32,6 +32,7 @@ public class UsuarioService {
 
     public ResponseEntity<?> cadastrarUsuario(DadosCadastroUsuario dadosCadastroUsuario, UriComponentsBuilder uriBuilder) {
         Usuario usuario = usuarioRepository.save(new Usuario(dadosCadastroUsuario));
+        usuario.add(linkTo(methodOn(UsuarioController.class).listarTodosUsuario(Pageable.unpaged())).withRel("Lista de usuários"));
         URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosListagemUsuarios(usuario));
     }
@@ -70,6 +71,7 @@ public class UsuarioService {
         }
 
         usuario.atualizarInformacoes(dadosAtualizacaoUsuario);
+        usuario.add(linkTo(methodOn(UsuarioController.class).listarTodosUsuario(Pageable.unpaged())).withRel("Lista de usuários"));
         return ResponseEntity.ok(new DadosListagemUsuarios(usuario));
     }
 

@@ -1,5 +1,6 @@
 package com.edimilsonborges.forum_hub.service;
 
+import com.edimilsonborges.forum_hub.controller.CursoController;
 import com.edimilsonborges.forum_hub.controller.RespostaController;
 import com.edimilsonborges.forum_hub.controller.TopicoController;
 import com.edimilsonborges.forum_hub.dto.respostas.DadosAtualizacaoResposta;
@@ -42,6 +43,7 @@ public class RespostaService {
 
         Topico topico = optionalTopico.get();
         Resposta resposta = new Resposta(dadosCadastroResposta.mensagem(),topico);
+        resposta.add(linkTo(methodOn(RespostaController.class).listarTodasRespostas(Pageable.unpaged())).withRel("Lista de respostas"));
         respostaRepository.save(resposta);
 
         URI uri = uriComponentsBuilder.path("respostas/{id}").buildAndExpand(resposta.getId()).toUri();
@@ -85,7 +87,7 @@ public class RespostaService {
         if(!Usuario.temPermisaoParaModificacao(resposta.getUsuario())){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new DadosErros("Você não pode modificar a resposta de outra pessoa!"));
         }
-
+        resposta.add(linkTo(methodOn(RespostaController.class).listarTodasRespostas(Pageable.unpaged())).withRel("Lista de respostas"));
         resposta.atualizarInformacoes(dadosAtualizacaoResposta);
 
         return ResponseEntity.ok(new DadosListagemResposta(resposta));

@@ -1,5 +1,6 @@
 package com.edimilsonborges.forum_hub.service;
 
+import com.edimilsonborges.forum_hub.controller.RespostaController;
 import com.edimilsonborges.forum_hub.controller.TopicoController;
 import com.edimilsonborges.forum_hub.dto.status.DadosErros;
 import com.edimilsonborges.forum_hub.dto.status.DadosSucesso;
@@ -45,6 +46,7 @@ public class TopicoService {
         Topico topico = new Topico(dadosCadastroTopicos.titulo(), dadosCadastroTopicos.mensagem(), curso);
         topicoRepository.save(topico);
 
+        topico.add(linkTo(methodOn(TopicoController.class).listarTodosTopicos(Pageable.unpaged())).withRel("Lista de tópicos"));
         URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
         return ResponseEntity.created(uri).body(new DadosListagemTopicos(topico));
     }
@@ -94,6 +96,7 @@ public class TopicoService {
         }
 
         topico.atualizarInformacoes(dadosAtualizacaoTopico);
+        topico.add(linkTo(methodOn(TopicoController.class).listarTodosTopicos(Pageable.unpaged())).withRel("Lista de tópicos"));
 
         return ResponseEntity.ok(new DadosListagemTopicos(topico));
     }
