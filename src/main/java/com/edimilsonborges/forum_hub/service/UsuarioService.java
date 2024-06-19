@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -31,6 +32,10 @@ public class UsuarioService {
     UsuarioRepository usuarioRepository;
 
     public ResponseEntity<?> cadastrarUsuario(DadosCadastroUsuario dadosCadastroUsuario, UriComponentsBuilder uriBuilder) {
+        UserDetails detailsUsuario = usuarioRepository.findByEmail(dadosCadastroUsuario.email());
+        if (!(detailsUsuario == null)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DadosErros("Esse email já está cadastrado!"));
+        }
         Usuario usuario = usuarioRepository.save(new Usuario(dadosCadastroUsuario));
         usuario.add(linkTo(methodOn(UsuarioController.class).listarTodosUsuario(Pageable.unpaged())).withRel("Lista de usuários"));
         URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(usuario.getId()).toUri();

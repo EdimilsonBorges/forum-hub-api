@@ -30,6 +30,7 @@ public class Usuario extends RepresentationModel<Curso> implements Serializable,
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String nome;
+    @Column(unique = true, nullable = false)
     private String email;
     private String senha;
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
