@@ -1,6 +1,5 @@
 package com.edimilsonborges.forum_hub.service;
 
-import com.edimilsonborges.forum_hub.controller.RespostaController;
 import com.edimilsonborges.forum_hub.controller.TopicoController;
 import com.edimilsonborges.forum_hub.dto.status.DadosErros;
 import com.edimilsonborges.forum_hub.dto.status.DadosSucesso;
@@ -145,7 +144,5 @@ public class TopicoService {
         resposta.setSolucao(true);
 
         return ResponseEntity.ok(new DadosSucesso("Status alterado com sucesso!"));
-
-
     }
 }
